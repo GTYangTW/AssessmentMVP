@@ -29,26 +29,12 @@ class RedsoPresenter {
     var arrayResult = [Result]()
     
     // 實作方法
-    func getJSON(with pageNumber: Int){
+    func getJSON(with pageNumber: Int = 0){
         let downloadJson = DownloadJSON()
-        let urlComponent = downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
-        
-        //let url = URL(string: "https://us-central1-redso-challenge.cloudfunctions.net/catalog?team=rangers&page=0")
-        let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
-            if let data = data {
-                do {
-                    let jsonData = try JSONDecoder().decode(DataJson.self, from: data)
-                    let tempjson = jsonData.results.compactMap{ $0 }
-                    self?.arrayResult += tempjson
-                    // 協定，把獲得的值，放到 Protocol 中，給其他 View 使用
-                    // 多個畫面如何處理？
-                    self?.delegate?.presentJSON(result: self!.arrayResult)
-                } catch {
-                    fatalError("Error parsing JSON: \(error)")
-                }
-            }
-        }
-        task.resume()
+        //let urlComponent = try downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
+        let jsonResult = downloadJson.downloadJson(with: pageNumber, completion: { result in
+            self.delegate?.presentJSON(result: result)
+        })
     }
     
     // 委任，當外部呼叫這個方法時，需要呼叫方輸入一個要實作的協議（Protocol）父類型（1/2）

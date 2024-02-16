@@ -17,7 +17,7 @@ class DownloadJSON {
 //        self.jsonResult = jsonResult
 //    }
     
-    func createDefaultUrlComponents(nowDonwnloadPageIs: Int = 0) -> URLComponents {
+    func createDefaultUrlComponents(nowDonwnloadPageIs: Int) -> URLComponents {
         let page = String(nowDonwnloadPageIs)
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
@@ -29,34 +29,23 @@ class DownloadJSON {
         return urlComponents
     }
     
-    func downloadJson(with urlComponents: URLComponents) {
-        var urlComponents = URLComponents()
+    func downloadJson(with page: Int, completion: @escaping ([Result]) -> Void) {
         let jsonDecoder = JSONDecoder()
-//        let page = nowDonwnloadPageIs
-        urlComponents.scheme = "https"
-        urlComponents.host = "us-central1-redso-challenge.cloudfunctions.net"
-        urlComponents.path = "/catalog"
-        let queryItem = URLQueryItem(name: "team", value: "rangers")
-        let queryItem2 = URLQueryItem(name: "page", value: "0")
-        urlComponents.queryItems = [queryItem, queryItem2]
-
+        let urlComponents = createDefaultUrlComponents(nowDonwnloadPageIs: page)
+        
         if let url = urlComponents.url {
             let task = URLSession.shared.dataTask(with: url) { (data, response , error) in
                 if error != nil {
                     //completion(nil)
                     return
                 }
-                if let httpResponse = response as? HTTPURLResponse, error == nil {
-                    if httpResponse.statusCode == 200 {
-                        if let data = data {
-                            do {
-                                let jsonData = try jsonDecoder.decode(DataJson.self, from: data)
-                                self.jsonResult = jsonData.results.compactMap{ $0 }
-                                //completion(self.jsonResult)
-                            } catch {
-                                fatalError("Error parsing JSON: \(error)")
-                            }
-                        }
+                if let data = data {
+                    do {
+                        let jsonData = try jsonDecoder.decode(DataJson.self, from: data)
+                        let jsonResult = jsonData.results.compactMap{ $0 }
+                        completion(jsonResult)
+                    } catch {
+                        fatalError("Error parsing JSON: \(error)")
                     }
                 }
             }
