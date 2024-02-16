@@ -18,10 +18,18 @@ class MainView: UIViewController {
     
     let cellIdBasic = "CustomCell"
     let cellIdBanner = "CustomCellBanner"
-    
+
     let presenter = RedsoPresenter()
-    //let presenterPL = RedsoPresenterDelegate
     var tbResult = [Result]()
+    
+    let loadingControl = UIRefreshControl()
+    var pageNumber = Int()
+    let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        return refreshControl
+    }()
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +44,9 @@ class MainView: UIViewController {
         // 實作委任，View有繼承protocol，因此self能放入，形成Delegation
         presenter.setViewDelegate(delegate: self)
         // 實作 Presenter 獲取數據方法
-        presenter.getJSON()
+        presenter.getJSON(with: pageNumber)
         setupBasic()
+
     }
     
     func setupBasic() {
@@ -77,21 +86,23 @@ class MainView: UIViewController {
     }
     func setupTableView() {
         view.addSubview(tbMain)
-        //activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-        //activityIndicator.hidesWhenStopped = true
+        activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.hidesWhenStopped = true
         //tbMain.addSubview(refreshControl)
-        //tbMain.addSubview(activityIndicator)
-        tbMain.backgroundColor = UIColor.white
+        tbMain.addSubview(activityIndicator)
+        tbMain.addSubview(loadingControl)
+        tbMain.backgroundColor = UIColor.black
 //        tbMain.separatorColor = .white
         tbMain.snp.makeConstraints { make in
             make.bottom.right.left.equalToSuperview()
             make.top.equalTo(self.lbTitleRed.snp.bottom).offset(10)
         }
-//        activityIndicator.snp.makeConstraints { make in
-//            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(20)
-//            make.centerX.equalToSuperview()
-//        }
-//        tbMain.showsVerticalScrollIndicator = false
+        loadingControl.addTarget(self, action: #selector(loadingData), for: .valueChanged)
+        activityIndicator.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        tbMain.showsVerticalScrollIndicator = false
     }
     func urlShowsImage(url: URL, completion: @escaping (UIImage, CGFloat, CGFloat) -> Void) {
         let imageURL = url
@@ -105,6 +116,13 @@ class MainView: UIViewController {
                 }
             }
         }.resume()
+    }
+    @objc func loadingData(){
+        // 停止 refreshControl 動畫
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.tbMain.reloadData()
+            self.loadingControl.endRefreshing()
+        }
     }
 }
 
@@ -155,6 +173,23 @@ extension MainView: RedsoPresenterDelegate{
         tbResult = result
         DispatchQueue.main.async {
             self.tbMain.reloadData()
+        }
+    }
+}
+extension MainView: UIScrollViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let bgFrameHeight = bgView.frame.origin.y
+        // 滑動動作要大，且畫面是往上時觸發
+        guard scrollView.contentOffset.y > bgFrameHeight + 30 && scrollView.contentOffset.y > 0 else { return }
+        activityIndicator.startAnimating()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            if scrollView.contentSize.height - (scrollView.frame.size.height + scrollView.contentOffset.y) <= -30 || self.pageNumber < 3{
+                // View 如何驅動 Presenter 改變？
+                self.pageNumber += 1
+                // 刷新後畫面只保留新的頁面 ？
+                self.presenter.getJSON(with: self.pageNumber)
+            }
+            self.activityIndicator.stopAnimating()
         }
     }
 }

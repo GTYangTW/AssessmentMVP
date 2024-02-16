@@ -22,23 +22,27 @@ protocol RedsoPresenterDelegate: AnyObject {
 class RedsoPresenter {
     //let downloadJSON = DownloadJSON()
     //weak var mainView: MainView?
-    
+
     // 創建 delegation 的變數遵照 Protocol 實作的方法
     weak var delegate: RedsoPresenterDelegate?
     let jsonDecoder = JSONDecoder()
-    var jsonResult = [Result]()
+    var arrayResult = [Result]()
     
     // 實作方法
-    func getJSON(){
-        let url = URL(string: "https://us-central1-redso-challenge.cloudfunctions.net/catalog?team=rangers&page=0")
-        let task = URLSession.shared.dataTask(with: url!) { [weak self] (data, response , error) in
+    func getJSON(with pageNumber: Int){
+        let downloadJson = DownloadJSON()
+        let urlComponent = downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
+        
+        //let url = URL(string: "https://us-central1-redso-challenge.cloudfunctions.net/catalog?team=rangers&page=0")
+        let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
                 do {
                     let jsonData = try JSONDecoder().decode(DataJson.self, from: data)
                     let tempjson = jsonData.results.compactMap{ $0 }
+                    self?.arrayResult += tempjson
                     // 協定，把獲得的值，放到 Protocol 中，給其他 View 使用
                     // 多個畫面如何處理？
-                    self?.delegate?.presentJSON(result: tempjson)
+                    self?.delegate?.presentJSON(result: self!.arrayResult)
                 } catch {
                     fatalError("Error parsing JSON: \(error)")
                 }

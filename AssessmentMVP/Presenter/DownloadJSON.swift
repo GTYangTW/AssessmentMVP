@@ -12,6 +12,11 @@ class DownloadJSON {
     var pageNumber = Int()
     var jsonResult = [Result]()
     
+//    init(pageNumber: Int = Int(), jsonResult: [Result] = [Result]()) {
+//        self.pageNumber = pageNumber
+//        self.jsonResult = jsonResult
+//    }
+    
     func createDefaultUrlComponents(nowDonwnloadPageIs: Int = 0) -> URLComponents {
         let page = String(nowDonwnloadPageIs)
         var urlComponents = URLComponents()
@@ -25,16 +30,15 @@ class DownloadJSON {
     }
     
     func downloadJson(with urlComponents: URLComponents) {
-        //var urlComponents = URLComponents()
+        var urlComponents = URLComponents()
         let jsonDecoder = JSONDecoder()
 //        let page = nowDonwnloadPageIs
-//        urlComponents.scheme = "https"
-//        urlComponents.host = "us-central1-redso-challenge.cloudfunctions.net"
-//        urlComponents.path = "/catalog"
-//        let queryItem = URLQueryItem(name: "team", value: "rangers")
-//        let queryItem2 = URLQueryItem(name: "page", value: String(page))
-//        urlComponents.queryItems = [queryItem, queryItem2]
-        let urlComponents = urlComponents
+        urlComponents.scheme = "https"
+        urlComponents.host = "us-central1-redso-challenge.cloudfunctions.net"
+        urlComponents.path = "/catalog"
+        let queryItem = URLQueryItem(name: "team", value: "rangers")
+        let queryItem2 = URLQueryItem(name: "page", value: "0")
+        urlComponents.queryItems = [queryItem, queryItem2]
 
         if let url = urlComponents.url {
             let task = URLSession.shared.dataTask(with: url) { (data, response , error) in
