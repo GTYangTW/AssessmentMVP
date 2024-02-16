@@ -16,12 +16,8 @@ protocol RedsoPresenterDelegate: AnyObject {
     func presentJSON(result: [Result])
 }
 
-//typealias PresenterDelegate = RedsoPresenterDelegate & UIViewController
-
 //Presenter 主要的 class 以及 weak self
 class RedsoPresenter {
-    //let downloadJSON = DownloadJSON()
-    //weak var mainView: MainView?
 
     // 創建 delegation 的變數遵照 Protocol 實作的方法
     weak var delegate: RedsoPresenterDelegate?
@@ -32,8 +28,6 @@ class RedsoPresenter {
     func getJSON(with pageNumber: Int){
         let downloadJson = DownloadJSON()
         let urlComponent = downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
-        
-        //let url = URL(string: "https://us-central1-redso-challenge.cloudfunctions.net/catalog?team=rangers&page=0")
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
                 do {

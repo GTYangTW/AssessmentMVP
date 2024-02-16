@@ -55,7 +55,6 @@ class MainView: UIViewController {
         view.addSubview(lbTitleWhite)
         bgView.backgroundColor = UIColor.black
         view.sendSubviewToBack(bgView)
-        //view.addSubview(simulatorSegment)
         lbTitleRed.text = "Red"
         lbTitleWhite.text = "So"
         lbTitleRed.textColor = UIColor.red
@@ -75,12 +74,6 @@ class MainView: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.equalTo(lbTitleRed.snp.right)
         }
-//        simulatorSegment.snp.makeConstraints { make in
-//            make.height.equalTo(50)
-//            make.width.equalToSuperview()
-//            make.top.equalTo(lbTitleRed.snp.bottom)
-//            make.centerX.equalToSuperview()
-//        }
         setupTableView()
         
     }
@@ -88,11 +81,9 @@ class MainView: UIViewController {
         view.addSubview(tbMain)
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.hidesWhenStopped = true
-        //tbMain.addSubview(refreshControl)
         tbMain.addSubview(activityIndicator)
         tbMain.addSubview(loadingControl)
         tbMain.backgroundColor = UIColor.black
-//        tbMain.separatorColor = .white
         tbMain.snp.makeConstraints { make in
             make.bottom.right.left.equalToSuperview()
             make.top.equalTo(self.lbTitleRed.snp.bottom).offset(10)
