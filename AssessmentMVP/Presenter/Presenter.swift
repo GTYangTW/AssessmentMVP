@@ -33,7 +33,8 @@ class RedsoPresenter {
         let downloadJson = DownloadJSON()
         //let urlComponent = try downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
         let jsonResult = downloadJson.downloadJson(with: pageNumber, completion: { result in
-            self.delegate?.presentJSON(result: result)
+            self.arrayResult += result
+            self.delegate?.presentJSON(result: self.arrayResult)
         })
     }
     
