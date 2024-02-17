@@ -25,8 +25,9 @@ class RedsoPresenter {
     var arrayResult = [Result]()
     
     // 實作方法
-    func getJSON(with pageNumber: Int){
+    func getJSON(with pageNumber: Int = 0){
         let downloadJson = DownloadJSON()
+<<<<<<< HEAD
         let urlComponent = downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
@@ -43,6 +44,13 @@ class RedsoPresenter {
             }
         }
         task.resume()
+=======
+        //let urlComponent = try downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
+        let jsonResult = downloadJson.downloadJson(with: pageNumber, completion: { result in
+            self.arrayResult += result
+            self.delegate?.presentJSON(result: self.arrayResult)
+        })
+>>>>>>> feature
     }
     
     // 委任，當外部呼叫這個方法時，需要呼叫方輸入一個要實作的協議（Protocol）父類型（1/2）

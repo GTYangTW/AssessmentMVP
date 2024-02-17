@@ -24,11 +24,11 @@ class MainView: UIViewController {
     
     let loadingControl = UIRefreshControl()
     var pageNumber = Int()
-    let refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .white
-        return refreshControl
-    }()
+//    let refreshControl: UIRefreshControl = {
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.tintColor = .white
+//        return refreshControl
+//    }()
     var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
