@@ -55,8 +55,8 @@ class MainView: UIViewController {
         view.addSubview(lbTitleWhite)
         bgView.backgroundColor = UIColor.black
         view.sendSubviewToBack(bgView)
-        lbTitleRed.text = "Red"
-        lbTitleWhite.text = "So"
+        lbTitleRed.text = "COM"
+        lbTitleWhite.text = "APPLE"
         lbTitleRed.textColor = UIColor.red
         lbTitleWhite.textColor = UIColor.white
         lbTitleRed.font = UIFont.systemFont(ofSize: 32, weight: .regular)
