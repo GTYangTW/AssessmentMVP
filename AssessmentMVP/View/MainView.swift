@@ -24,7 +24,17 @@ class MainView: UIViewController {
     
     let loadingControl = UIRefreshControl()
     var pageNumber = Int()
+    var viewName = String()
     var activityIndicator = UIActivityIndicatorView()
+    
+    init(apiPage: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewName = apiPage
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +49,7 @@ class MainView: UIViewController {
         // 實作委任，View有繼承protocol，因此self能放入，形成Delegation
         presenter.setViewDelegate(delegate: self)
         // 實作 Presenter 獲取數據方法
-        presenter.getJSON(with: pageNumber)
+        presenter.getJSON(with: viewName, with: pageNumber)
         setupBasic()
     }
     
@@ -73,7 +83,7 @@ class MainView: UIViewController {
     }
     func setupTableView() {
         view.addSubview(tbMain)
-        activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.hidesWhenStopped = true
         tbMain.addSubview(activityIndicator)
         tbMain.addSubview(loadingControl)
@@ -173,7 +183,7 @@ extension MainView: UIScrollViewDelegate {
                 // View 如何驅動 Presenter 改變？
                 self.pageNumber += 1
                 // 刷新後畫面只保留新的頁面 ？
-                self.presenter.getJSON(with: self.pageNumber)
+                self.presenter.getJSON(with: self.viewName, with: self.pageNumber)
             }
             self.activityIndicator.stopAnimating()
         }

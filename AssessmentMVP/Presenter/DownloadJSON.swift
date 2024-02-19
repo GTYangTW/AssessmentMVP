@@ -16,22 +16,36 @@ class DownloadJSON {
 //        self.pageNumber = pageNumber
 //        self.jsonResult = jsonResult
 //    }
-    
-    func createDefaultUrlComponents(nowDonwnloadPageIs: Int) -> URLComponents {
+    // createDefaultUrlComponents目前沒使用
+    func createDefaultUrlComponents(webapi value: String, nowDonwnloadPageIs: Int) -> URLComponents {
+        let value = value
         let page = String(nowDonwnloadPageIs)
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "us-central1-redso-challenge.cloudfunctions.net"
         urlComponents.path = "/catalog"
-        let queryItem = URLQueryItem(name: "team", value: "rangers")
+        let queryItem = URLQueryItem(name: "team", value: value)
         let queryItem2 = URLQueryItem(name: "page", value: page)
         urlComponents.queryItems = [queryItem, queryItem2]
         return urlComponents
     }
     
-    func downloadJson(with page: Int, completion: @escaping ([Result]) -> Void) {
+    func webapiChecked(viewNumber: Int) throws -> String{
+        let apiName: [Int: String] = [1: "Rangers",
+                                      2: "Elastic",
+                                      3: "Dynamo"]
+        guard viewNumber >= 3 else{
+            throw viewNumberError.OutOfNumber
+        }
+        if let viewNumber = apiName[viewNumber] as? String {
+            return viewNumber
+        }
+        return "Rangers"
+    }
+    
+    func downloadJson(with webapi: String, with page: Int, completion: @escaping ([Result]) -> Void) {
         let jsonDecoder = JSONDecoder()
-        let urlComponents = createDefaultUrlComponents(nowDonwnloadPageIs: page)
+        let urlComponents = createDefaultUrlComponents(webapi: webapi, nowDonwnloadPageIs: page)
         
         if let url = urlComponents.url {
             let task = URLSession.shared.dataTask(with: url) { (data, response , error) in

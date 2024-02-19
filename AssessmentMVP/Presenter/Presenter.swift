@@ -25,9 +25,19 @@ class RedsoPresenter {
     var arrayResult = [Result]()
     
     // 實作方法
-    func getJSON(with pageNumber: Int = 0){
+    func getJSON(with viewName: String, with pageNumber: Int = 0){
         let downloadJson = DownloadJSON()
-        let urlComponent = downloadJson.createDefaultUrlComponents(nowDonwnloadPageIs: pageNumber)
+        /*
+        var urlComponent = URLComponents()
+        var webapi = String()
+        do {
+            let webapi = try downloadJson.webapiChecked(viewNumber: viewNumber)
+            print(webapi)
+        } catch {
+            fatalError("Web page number is fail!!")
+        }
+        */
+        let urlComponent = downloadJson.createDefaultUrlComponents(webapi: viewName, nowDonwnloadPageIs: pageNumber)
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
                 do {
@@ -43,7 +53,8 @@ class RedsoPresenter {
             }
         }
         task.resume()
-        let jsonResult = downloadJson.downloadJson(with: pageNumber, completion: { result in
+        
+        let jsonResult = downloadJson.downloadJson(with: viewName, with: pageNumber, completion: { result in
             self.arrayResult += result
             self.delegate?.presentJSON(result: self.arrayResult)
         })
@@ -53,4 +64,8 @@ class RedsoPresenter {
     func setViewDelegate(delegate: RedsoPresenterDelegate){
         self.delegate = delegate
     }
+}
+
+enum viewNumberError: Error {
+    case OutOfNumber
 }

@@ -14,14 +14,14 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
     let simulatorSegment = UIView()
     
     var currentOfPage: Int = 0
-    let mainV = MainView()
+    let mainV = MainView(apiPage: "rangers")
     let secV: UIViewController = {
-        var vc = UIViewController()
+        var vc = MainView(apiPage: "elastic")
         vc.view.backgroundColor = .red
         return vc
     }()
     let thirdV : UIViewController = {
-        var vc = UIViewController()
+        var vc = MainView(apiPage: "dynamo")
         vc.view.backgroundColor = .yellow
         return vc
     }()
@@ -204,4 +204,20 @@ extension UIButton {
         )
         self.setAttributedTitle(attributedString, for: .normal)
     }
+    /*
+    func addUnderline(for label: UILabel?) {
+        guard let titleLabel = label else { return }
+        let attributes: [NSAttributedString.Key: Any] = [
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedString = NSAttributedString(string: titleLabel.text ?? "", attributes: attributes)
+        titleLabel.attributedText = attributedString
+    }
+    func addBottomBorder(color: UIColor, thickness: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - thickness, width: self.frame.size.width, height: thickness)
+        self.layer.addSublayer(border)
+    }
+     */
 }
