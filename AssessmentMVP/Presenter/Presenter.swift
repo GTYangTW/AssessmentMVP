@@ -43,7 +43,7 @@ class RedsoPresenter {
                 do {
                     let jsonData = try JSONDecoder().decode(DataJson.self, from: data)
                     let tempjson = jsonData.results.compactMap{ $0 }
-                    self?.arrayResult += tempjson
+                    //self?.arrayResult += tempjson
                     // 協定，把獲得的值，放到 Protocol 中，給其他 View 使用
                     // 多個畫面如何處理？
                     self?.delegate?.presentJSON(result: self!.arrayResult)
