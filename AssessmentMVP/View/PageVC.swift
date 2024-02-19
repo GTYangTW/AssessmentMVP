@@ -164,6 +164,7 @@ extension PageVC : UIPageViewControllerDataSource {
         }
         self.currentOfPage = currentIndex
         let previousIndex = (currentIndex - 1 + arrayVC.count) % arrayVC.count
+        self.animateUnderLine(arrayBtn[currentIndex])
         return arrayVC[previousIndex]
     }
     
@@ -173,6 +174,7 @@ extension PageVC : UIPageViewControllerDataSource {
         }
         self.currentOfPage = currentIndex
         let nextIndex = (currentIndex + 1) % arrayVC.count
+        self.animateUnderLine(arrayBtn[currentIndex])
         return arrayVC[nextIndex]
     }
     
