@@ -41,7 +41,6 @@ class MainView: UIViewController {
         // 實作 Presenter 獲取數據方法
         presenter.getJSON(with: pageNumber)
         setupBasic()
-
     }
     
     func setupBasic() {
@@ -50,8 +49,8 @@ class MainView: UIViewController {
         view.addSubview(lbTitleWhite)
         bgView.backgroundColor = UIColor.black
         view.sendSubviewToBack(bgView)
-        lbTitleRed.text = "Red"
-        lbTitleWhite.text = "So"
+        lbTitleRed.text = ""
+        lbTitleWhite.text = ""
         lbTitleRed.textColor = UIColor.red
         lbTitleWhite.textColor = UIColor.white
         lbTitleRed.font = UIFont.systemFont(ofSize: 32, weight: .regular)
@@ -79,9 +78,10 @@ class MainView: UIViewController {
         tbMain.addSubview(activityIndicator)
         tbMain.addSubview(loadingControl)
         tbMain.backgroundColor = UIColor.black
+        tbMain.separatorColor = .white
         tbMain.snp.makeConstraints { make in
             make.bottom.right.left.equalToSuperview()
-            make.top.equalTo(self.lbTitleRed.snp.bottom).offset(10)
+            make.top.equalTo(self.lbTitleRed.snp.bottom).offset(80)
         }
         loadingControl.addTarget(self, action: #selector(loadingData), for: .valueChanged)
         activityIndicator.snp.makeConstraints { make in
