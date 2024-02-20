@@ -39,16 +39,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6306D3C9-03C7-48D0-86BD-20F6708FD1DF"
+            uuid = "5CF3A134-8EA4-4785-AC24-6BF88FDE8CD3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AssessmentMVP/View/MainView.swift"
+            filePath = "AssessmentMVP/Presenter/DownloadJSON.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "urlShowsImage(url:completion:)"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "downloadJson(with:with:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
