@@ -206,20 +206,4 @@ extension UIButton {
         )
         self.setAttributedTitle(attributedString, for: .normal)
     }
-    /*
-    func addUnderline(for label: UILabel?) {
-        guard let titleLabel = label else { return }
-        let attributes: [NSAttributedString.Key: Any] = [
-            .underlineStyle: NSUnderlineStyle.single.rawValue
-        ]
-        let attributedString = NSAttributedString(string: titleLabel.text ?? "", attributes: attributes)
-        titleLabel.attributedText = attributedString
-    }
-    func addBottomBorder(color: UIColor, thickness: CGFloat) {
-        let border = CALayer()
-        border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: self.frame.size.height - thickness, width: self.frame.size.width, height: thickness)
-        self.layer.addSublayer(border)
-    }
-     */
 }

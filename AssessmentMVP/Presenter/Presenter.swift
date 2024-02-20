@@ -27,23 +27,12 @@ class RedsoPresenter {
     // 實作方法
     func getJSON(with viewName: String, with pageNumber: Int = 0){
         let downloadJson = DownloadJSON()
-        /*
-        var urlComponent = URLComponents()
-        var webapi = String()
-        do {
-            let webapi = try downloadJson.webapiChecked(viewNumber: viewNumber)
-            print(webapi)
-        } catch {
-            fatalError("Web page number is fail!!")
-        }
-        */
         let urlComponent = downloadJson.createDefaultUrlComponents(webapi: viewName, nowDonwnloadPageIs: pageNumber)
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
                 do {
                     let jsonData = try JSONDecoder().decode(DataJson.self, from: data)
                     let tempjson = jsonData.results.compactMap{ $0 }
-                    //self?.arrayResult += tempjson
                     // 協定，把獲得的值，放到 Protocol 中，給其他 View 使用
                     // 多個畫面如何處理？
                     self?.delegate?.presentJSON(result: self!.arrayResult)
