@@ -38,13 +38,12 @@ class RedsoPresenter {
         }
         */
         //TODO: 空array + 後續頁面減少code重複
+        /*
         let urlComponent = downloadJson.createDefaultUrlComponents(webapi: viewName, nowDonwnloadPageIs: pageNumber)
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {
                 do {
                     let jsonData = try JSONDecoder().decode(DataJson.self, from: data)
-                    let tempjson = jsonData.results.compactMap{ $0 }
-                    //self?.arrayResult += tempjson
                     // 協定，把獲得的值，放到 Protocol 中，給其他 View 使用
                     // 多個畫面如何處理？
                     self?.delegate?.presentJSON(result: self!.arrayResult)
@@ -54,7 +53,7 @@ class RedsoPresenter {
             }
         }
         task.resume()
-        
+        */
         let jsonResult = downloadJson.downloadJson(with: viewName, with: pageNumber, completion: { result in
             self.arrayResult += result
             self.delegate?.presentJSON(result: self.arrayResult)

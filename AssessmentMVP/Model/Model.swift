@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - JSON Codable
 struct Result: Codable {
     var id, name, position: String?
     var type: String
@@ -25,4 +26,10 @@ struct DataJson: Codable {
 enum NetworkConnectionStatus: String {
     case online
     case offline
+}
+
+// MARK: - TableView enum case
+enum CellStyle: String {
+    case employee
+    case banner
 }

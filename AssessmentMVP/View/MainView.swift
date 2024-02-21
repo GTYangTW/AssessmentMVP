@@ -129,7 +129,8 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
     // TODO: 改成用enum管理cell識別
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = tbResult[indexPath.row]
-        if data.type == "employee" {
+        // 不確定是不是這樣改...
+        if data.type == CellStyle.employee.rawValue {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdBasic, for: indexPath) as? CustomCell else {
                 fatalError("The tabelview could not dequeue a CustomCell in Viewcontroller.")
             }
@@ -162,7 +163,7 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
         return 200
     }
 }
-
+// MARK: - extension
 // 委任，實作 Delegation 的方法。資料進來要如何處理
 extension MainView: RedsoPresenterDelegate{
    func presentJSON(result: [Result]) {

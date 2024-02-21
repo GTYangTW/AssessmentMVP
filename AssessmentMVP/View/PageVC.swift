@@ -13,7 +13,9 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
     private let lbTitleWhite = UILabel()
     private let simulatorSegment = UIView()
     
-    var currentOfPage: Int = 0
+    private var preOfPage: Int = 0
+    private var currentOfPage: Int = 0
+    private var nextOfPage: Int = 0
     private let mainV = MainView(apiPage: "rangers")
     private let secV: UIViewController = {
         var vc = MainView(apiPage: "elastic")
@@ -145,6 +147,24 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
         }
         button.addUnderline()
     }
+    
+    private func updateButtonUnderline() {
+        // 確保 currentIndex 在有效範圍內
+        guard currentOfPage > 0 && currentOfPage < arrayBtn.count else {
+            return
+        }
+
+        // 循環遍歷所有按鈕
+        for (index, button) in arrayBtn.enumerated() {
+            if index == currentOfPage {
+                // 如果當前按鈕是當前選中的按鈕，添加底線
+                button.addUnderline()
+            } else {
+                // 如果當前按鈕不是當前選中的按鈕，移除底線
+                button.removeUnderline()
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -162,9 +182,9 @@ extension PageVC : UIPageViewControllerDataSource {
         guard let currentIndex = arrayVC.firstIndex(of: viewController) else {
             return nil
         }
-        self.currentOfPage = currentIndex
         let previousIndex = (currentIndex - 1 + arrayVC.count) % arrayVC.count
-        self.animateUnderLine(arrayBtn[currentIndex])
+        self.currentOfPage = currentIndex
+        self.preOfPage = previousIndex
         return arrayVC[previousIndex]
     }
     
@@ -172,12 +192,21 @@ extension PageVC : UIPageViewControllerDataSource {
         guard let currentIndex = arrayVC.firstIndex(of: viewController) else {
             return nil
         }
-        self.currentOfPage = currentIndex
         let nextIndex = (currentIndex + 1) % arrayVC.count
-        self.animateUnderLine(arrayBtn[currentIndex])
+        self.currentOfPage = currentIndex
+        self.nextOfPage = nextIndex
         return arrayVC[nextIndex]
     }
-    
+    // TODO: 按鈕更新太慢
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard completed,
+              let viewController = pageViewController.viewControllers?.first,
+              let index = arrayVC.firstIndex(of: viewController) else { return }
+        for btn in arrayBtn {
+            btn.removeUnderline()
+        }
+        arrayBtn[index].addUnderline()
+    }
     
 }
 extension UIButton {
