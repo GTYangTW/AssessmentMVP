@@ -8,9 +8,9 @@
 import Foundation
 
 class DownloadJSON {
-    var apiWebsite = String()
-    var pageNumber = Int()
-    var jsonResult = [Result]()
+    private var apiWebsite = String()
+    private var pageNumber = Int()
+    private var jsonResult = [Result]()
     
 //    init(pageNumber: Int = Int(), jsonResult: [Result] = [Result]()) {
 //        self.pageNumber = pageNumber

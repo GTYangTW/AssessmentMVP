@@ -37,6 +37,7 @@ class RedsoPresenter {
             fatalError("Web page number is fail!!")
         }
         */
+        //TODO: 空array + 後續頁面減少code重複
         let urlComponent = downloadJson.createDefaultUrlComponents(webapi: viewName, nowDonwnloadPageIs: pageNumber)
         let task = URLSession.shared.dataTask(with: urlComponent.url!) { [weak self] (data, response , error) in
             if let data = data {

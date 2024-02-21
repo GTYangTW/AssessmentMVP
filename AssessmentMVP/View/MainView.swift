@@ -7,25 +7,25 @@
 
 import UIKit
 import SnapKit
-
+// TODO: Github request
 // MVP 中畫面是被動的，只有輸入數據、顯示、刷新功能。資料由 Presenter 推給畫面
 // 只需要做好 Protocol 溝通
 class MainView: UIViewController {
-    let lbTitleRed = UILabel()
-    let lbTitleWhite = UILabel()
-    var tbMain = UITableView()
-    let bgView = UIView()
+    private let lbTitleRed = UILabel()
+    private let lbTitleWhite = UILabel()
+    private var tbMain = UITableView()
+    private let bgView = UIView()
     
-    let cellIdBasic = "CustomCell"
-    let cellIdBanner = "CustomCellBanner"
+    private let cellIdBasic = "CustomCell"
+    private let cellIdBanner = "CustomCellBanner"
 
-    let presenter = RedsoPresenter()
-    var tbResult = [Result]()
+    private let presenter = RedsoPresenter()
+    private var tbResult = [Result]()
     
-    let loadingControl = UIRefreshControl()
-    var pageNumber = Int()
-    var viewName = String()
-    var activityIndicator = UIActivityIndicatorView()
+    private let loadingControl = UIRefreshControl()
+    private var pageNumber = Int()
+    private var viewName = String()
+    private var activityIndicator = UIActivityIndicatorView()
     
     init(apiPage: String) {
         super.init(nibName: nil, bundle: nil)
@@ -53,7 +53,7 @@ class MainView: UIViewController {
         setupBasic()
     }
     
-    func setupBasic() {
+    private func setupBasic() {
         view.addSubview(bgView)
         view.addSubview(lbTitleRed)
         view.addSubview(lbTitleWhite)
@@ -81,7 +81,7 @@ class MainView: UIViewController {
         setupTableView()
         
     }
-    func setupTableView() {
+    private func setupTableView() {
         view.addSubview(tbMain)
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.hidesWhenStopped = true
@@ -100,7 +100,7 @@ class MainView: UIViewController {
         }
         tbMain.showsVerticalScrollIndicator = false
     }
-    func urlShowsImage(url: URL, completion: @escaping (UIImage, CGFloat, CGFloat) -> Void) {
+    private func urlShowsImage(url: URL, completion: @escaping (UIImage, CGFloat, CGFloat) -> Void) {
         let imageURL = url
         URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
             if let data = data,
@@ -126,7 +126,7 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tbResult.count
     }
-    
+    // TODO: 改成用enum管理cell識別
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = tbResult[indexPath.row]
         if data.type == "employee" {
@@ -165,12 +165,14 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
 
 // 委任，實作 Delegation 的方法。資料進來要如何處理
 extension MainView: RedsoPresenterDelegate{
-    func presentJSON(result: [Result]) {
+   func presentJSON(result: [Result]) {
         tbResult = result
         DispatchQueue.main.async {
             self.tbMain.reloadData()
         }
     }
+    
+    
 }
 extension MainView: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

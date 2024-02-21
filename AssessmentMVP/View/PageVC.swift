@@ -9,18 +9,18 @@ import UIKit
 
 class PageVC: UIPageViewController, UIPageViewControllerDelegate {
     
-    let lbTitleRed = UILabel()
-    let lbTitleWhite = UILabel()
-    let simulatorSegment = UIView()
+    private let lbTitleRed = UILabel()
+    private let lbTitleWhite = UILabel()
+    private let simulatorSegment = UIView()
     
     var currentOfPage: Int = 0
-    let mainV = MainView(apiPage: "rangers")
-    let secV: UIViewController = {
+    private let mainV = MainView(apiPage: "rangers")
+    private let secV: UIViewController = {
         var vc = MainView(apiPage: "elastic")
         vc.view.backgroundColor = .red
         return vc
     }()
-    let thirdV : UIViewController = {
+    private let thirdV : UIViewController = {
         var vc = MainView(apiPage: "dynamo")
         vc.view.backgroundColor = .yellow
         return vc
@@ -67,7 +67,7 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
         self.setupButton()
         // Do any additional setup after loading the view.
     }
-    func setupBasic(){
+    private func setupBasic(){
         view.addSubview(lbTitleRed)
         view.addSubview(lbTitleWhite)
         lbTitleRed.text = "Red"
@@ -86,7 +86,7 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
             make.left.equalTo(lbTitleRed.snp.right)
         }
     }
-    func setupButton(){
+    private func setupButton(){
         view.addSubview(simulatorSegment)
         simulatorSegment.backgroundColor = .black
         for i in arrayBtn{
@@ -121,7 +121,7 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
     }
     
     @objc
-    func btnDidTap(_ sender: UIButton) {
+    private func btnDidTap(_ sender: UIButton) {
         var direction = NavigationDirection.forward
         animateUnderLine(sender)
         if let index = arrayBtn.firstIndex(of: sender){
@@ -136,7 +136,7 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
             currentOfPage = index
         }
     }
-    func animateUnderLine(_ button: UIButton) {
+    private func animateUnderLine(_ button: UIButton) {
         for btn in simulatorSegment.subviews {
             if let otherButton = btn as? UIButton,
                otherButton != button {
