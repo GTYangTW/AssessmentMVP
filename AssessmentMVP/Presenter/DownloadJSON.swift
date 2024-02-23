@@ -12,10 +12,7 @@ class DownloadJSON {
     private var pageNumber = Int()
     private var jsonResult = [Result]()
     
-//    init(pageNumber: Int = Int(), jsonResult: [Result] = [Result]()) {
-//        self.pageNumber = pageNumber
-//        self.jsonResult = jsonResult
-//    }
+
     // createDefaultUrlComponents目前沒使用
     func createDefaultUrlComponents(webapi value: String, nowDonwnloadPageIs: Int) -> URLComponents {
         let value = value

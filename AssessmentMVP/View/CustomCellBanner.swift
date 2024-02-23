@@ -41,7 +41,6 @@ class CustomCellBanner: UITableViewCell {
         }
         imgBanner.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            //make.top.left.right.bottom.height.width.equalToSuperview()
         }
     }
     
