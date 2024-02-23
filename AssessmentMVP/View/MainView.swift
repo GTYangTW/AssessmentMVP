@@ -130,7 +130,45 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
     // TODO: 改成用enum管理cell識別
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = tbResult[indexPath.row]
+        guard let dataType = ResultType(rawValue: data.type.rawValue) else {
+            return UITableViewCell()
+        }
+        switch dataType {
+        case .employee:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdBasic, for: indexPath) as? CustomCell else {
+                fatalError("The tabelview could not dequeue a CustomCell in Viewcontroller.")
+            }
+            if let name = data.id,
+               let position = data.position,
+               let exps = data.expertise,
+               let url = data.avatar{
+                urlShowsImage(url: url) { img, _, _ in
+                    cell.configure(with: img, name: name, position: position, exps: exps)
+                }
+            }
+            return cell
+        case .banner:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdBanner, for: indexPath) as? CustomCellBanner else {
+                fatalError("The tabelview could not dequeue a CustomCell in Viewcontroller.")
+            }
+            if let url = data.url{
+                urlShowsImage(url: url) { img, _, _ in
+                    // 增加計算圖片高度的流程
+                    // https://itecnote.com/tecnote/ios-swift-dynamic-uitableviewcell-size-based-on-image-aspect-ratio/
+                    let aspectRatio = (img as UIImage).size.height / (img as UIImage).size.width
+                    cell.imgBanner.image = img
+                    let imageHeight = self.view.frame.width * aspectRatio
+                    tableView.beginUpdates()
+                    self.rowHeights[indexPath.row] = imageHeight
+                    tableView.endUpdates()
+                }
+            }
+            return cell
+        }
+        
         // 不確定是不是這樣改...
+        /*
+         let data = tbResult[indexPath.row]
         switch data.type{
         case .employee:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdBasic, for: indexPath) as? CustomCell else {
@@ -152,6 +190,7 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
             if let url = data.url{
                 urlShowsImage(url: url) { img, _, _ in
                     // 增加計算圖片高度的流程
+                    // https://itecnote.com/tecnote/ios-swift-dynamic-uitableviewcell-size-based-on-image-aspect-ratio/
                     let aspectRatio = (img as UIImage).size.height / (img as UIImage).size.width
                     cell.imgBanner.image = img
                     let imageHeight = self.view.frame.width * aspectRatio
@@ -164,6 +203,7 @@ extension MainView: UITableViewDelegate, UITableViewDataSource{
         default:
             return UITableViewCell()
         }
+         */
         // 線型判斷流程
         /*
         if data.type == ResultType.employee {
