@@ -58,7 +58,6 @@ class MainView: UIViewController {
         view.addSubview(bgView)
         view.addSubview(lbTitleRed)
         view.addSubview(lbTitleWhite)
-        bgView.backgroundColor = UIColor.black
         view.sendSubviewToBack(bgView)
         lbTitleRed.text = ""
         lbTitleWhite.text = ""
@@ -88,7 +87,6 @@ class MainView: UIViewController {
         activityIndicator.hidesWhenStopped = true
         tbMain.addSubview(activityIndicator)
         tbMain.addSubview(loadingControl)
-        tbMain.backgroundColor = UIColor.black
         tbMain.separatorColor = .white
         tbMain.snp.makeConstraints { make in
             make.bottom.right.left.equalToSuperview()

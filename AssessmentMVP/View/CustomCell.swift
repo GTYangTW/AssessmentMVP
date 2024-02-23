@@ -45,6 +45,7 @@ class CustomCell: UITableViewCell {
         lbName.textColor = UIColor.white
         lbPosition.textColor = UIColor.white
         lbExpert.textColor = UIColor.white
+        bgView.backgroundColor = UIColor.black
         contentView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
         }

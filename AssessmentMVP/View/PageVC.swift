@@ -19,12 +19,10 @@ class PageVC: UIPageViewController, UIPageViewControllerDelegate {
     private let mainV = MainView(apiPage: "rangers")
     private let secV: UIViewController = {
         var vc = MainView(apiPage: "elastic")
-        vc.view.backgroundColor = .red
         return vc
     }()
     private let thirdV : UIViewController = {
         var vc = MainView(apiPage: "dynamo")
-        vc.view.backgroundColor = .yellow
         return vc
     }()
     

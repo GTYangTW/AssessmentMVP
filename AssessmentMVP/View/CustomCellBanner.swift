@@ -31,7 +31,7 @@ class CustomCellBanner: UITableViewCell {
         contentView.addSubview(bgView)
         bgView.addSubview(imgBanner)
         imgBanner.contentMode = .scaleAspectFit
-       
+        bgView.backgroundColor = UIColor.black
         contentView.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
         }
